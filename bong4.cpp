@@ -1,8 +1,9 @@
 #include <iostream>
+
 using namespace std;
+
 class player{
-    int money;
-    
+    int money=5000;
 public:
     int Money(){return money;}
     void getMoney(int data){
@@ -12,7 +13,7 @@ public:
 
 class item{
     //소모품
-    int bomb, poison, medicine, gotgam, money;
+    int bomb=0, poison=0, medicine=0, gotgam=0, money=0;
     //퀘스트 아이템
     int thunder, tornado;
 
@@ -20,8 +21,9 @@ class item{
 public:
     int sord = 8, bow = 7, hammer = 6, helmet = 7, armor = 8, shield = 8;
     //소모품
-    void Bomb(){
+    int Bomb(){
         bomb += 8;
+        return bomb;
     }
     void Poison(){
         poison += 6;
@@ -29,18 +31,19 @@ public:
     void Medicine(){
         medicine += 9;
     }
+    //퀘스트 아이템
+    
+    void Tornado(){
+        tornado += 3;
+    }
+    void Thunder(){
+        thunder += 2;
+    }
     void Gotgam(){
         gotgam += 10;
     }
     void Money (int data){
         money += data;
-    }
-    //퀘스트 아이템
-    void Thunder(){
-        thunder += 2;
-    }
-    void Tornado(){
-        tornado += 3;
     }
 };
 
@@ -74,13 +77,12 @@ void Choose(player player, item item, int choose){
                 }
             break;
             case 4:
-                if (player.Money()<200){
+                if (player.Money()<60){
                     cout << "잔액이 부족합니다" << endl;
                 }
                 else{
-                    player.getMoney(-300);
-                    item.Gotgam();
-                
+                    player.getMoney(-60);
+                    item.Tornado();
                 }
             break;
             case 5:
@@ -93,12 +95,13 @@ void Choose(player player, item item, int choose){
                 }
                 break;
             case 6:
-                if (player.Money()<60){
+                if (player.Money()<200){
                     cout << "잔액이 부족합니다" << endl;
                 }
                 else{
-                    player.getMoney(-60);
-                    item.Tornado();
+                    player.getMoney(-300);
+                    item.Gotgam();
+                
                 }
                 break;
         }
@@ -110,26 +113,31 @@ void shop(player player, item item){
     << "1. 폭탄 [공격력 80] [가격 300]" << endl
     << "2. 세균 [공격력 60] [가격 200]" << endl
     << "3. 물약 [회복력 90] [가격 320]" << endl
-    << "4. 곶감 [공격력 100] [가격 200] 호랑이공격에만 사용가능" << endl
+    << "4. 태풍 [공격력 30] [가격 60]" << endl
     << "5. 번개 [공격력 20] [가격 55]" << endl
-    << "6. 태풍 [공격력 30] [가격 60]" << endl;
+    << "6. 곶감 [공격력 100] [가격 200] 호랑이공격에만 사용가능" << endl;
     
     int choose;
     cout << "아이템을 선택하세요."<<endl;
     cin >> choose;
     Choose(player, item, choose);
+    cout << "money : " << player.Money() << endl;
     
     int more;
-    cout << "더 선택하시겠습니까? [YES 1] [NO 2]"<<endl;
-    cin >> more ;
-    if (more == 1){
-        Choose(player, item, choose);
-    }
-    if (more == 2){
-        system("pause");
+     
+    while(player.Money() > 0){
+        cout << "더 선택하시겠습니까? [YES 1] [NO 2]"<<endl;
+        cin >> more ;
+        if (more == 1){
+            Choose(player, item, choose);
+            cout << "money : " << player.Money() << endl;
+        }
+        if (more == 2){
+            system("pause");
+            break;
+        }
     }
 }
-
 
 int main() {
     player me;
